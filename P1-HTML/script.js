@@ -111,21 +111,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ===== ERROR HANDLING UTILITIES ===== */
     function showFieldError(field, message) {
-        // Remove existing errors first
-        const existingError = field.parentNode.querySelector('.error-message');
-        if (existingError) existingError.remove();
+        // Clear existing errors
+        const errorContainer = field.parentNode.querySelector('.error-container');
+        if (errorContainer) errorContainer.remove();
 
-        // Create new error element
+        // Create error container
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-container';
+        
+        // Create error message
         const errorElement = document.createElement('div');
         errorElement.className = 'error-message';
         errorElement.textContent = message;
-        errorElement.style.color = '#dc3545';
-        errorElement.style.fontSize = '0.8rem';
-        errorElement.style.marginTop = '0.25rem';
 
-        // Add ARIA attributes for accessibility
-        field.setAttribute('aria-invalid', 'true');
-        field.parentNode.appendChild(errorElement);
+        errorDiv.appendChild(errorElement);
+        field.parentNode.appendChild(errorDiv);  // Append to input-group
     }
 
     function clearAllErrors() {
