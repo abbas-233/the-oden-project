@@ -1,2 +1,2 @@
 # the-oden-project
-this file contiains all project i'v done in the oden projec
+This file contains all the projects I've completed as part of The Odin Project.
