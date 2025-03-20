@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Material Icons (replace with actual CDN link) -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Grid Container -->
+    <div class="grid-container">
+        <!-- Sidebar Section -->
+        <aside class="sidebar">
+            <!-- Branding Section -->
+            <div class="branding">
+                <span class="material-icons">dashboard</span>
+                <h1>Dashboard</h1>
+            </div>
+            
+            <!-- Navigation Section -->
+            <nav class="sidebar-nav">
+                <ul class="nav-primary">
+                    <li><a href="#"><span class="material-icons">home</span>Home</a></li>
+                    <li><a href="#"><span class="material-icons">person</span>Profile</a></li>
+                    <li><a href="#"><span class="material-icons">chat</span>Messages</a></li>
+                    <!-- Add more nav items -->
+                </ul>
+                
+                <ul class="nav-secondary">
+                    <li><a href="#"><span class="material-icons">settings</span>Settings</a></li>
+                    <li><a href="#"><span class="material-icons">help</span>Support</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Header Section -->
+        <header class="header">
+            <div class="search-bar">
+                <span class="material-icons">search</span>
+                <input type="search" placeholder="Search...">
+            </div>
+            
+            <div class="user-info">
+                <span class="material-icons">notifications</span>
+                <img src="user-avatar.jpg" alt="User Avatar" class="avatar-sm">
+                <h2>John Doe</h2>
+            </div>
+            
+            <div class="header-actions">
+                <button class="btn">New</button>
+                <button class="btn">Upload</button>
+                <button class="btn">Share</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Projects Grid -->
+            <section class="projects">
+                <h2>Your Projects</h2>
+                <div class="project-grid">
+                    <article class="project-card">
+                        <h3>Super Cool Project</h3>
+                        <p>Lorem ipsum dolor sit amet...</p>
+                        <div class="project-actions">
+                            <span class="material-icons">star</span>
+                            <span class="material-icons">visibility</span>
+                            <span class="material-icons">share</span>
+                        </div>
+                    </article>
+                    <!-- Repeat project cards -->
+                </div>
+            </section>
+
+            <!-- Announcements Section -->
+            <aside class="announcements">
+                <h2>Announcements</h2>
+                <div class="announcement-card">
+                    <article>
+                        <h4>Site Maintenance</h4>
+                        <p>Lorem ipsum dolor sit amet...</p>
+                    </article>
+                    <!-- More announcements -->
+                </div>
+            </aside>
+
+            <!-- Trending Section -->
+            <section class="trending">
+                <h2>Trending</h2>
+                <div class="trending-items">
+                    <article>
+                        <img src="user1.jpg" alt="User" class="avatar-xs">
+                        <div>
+                            <h4>@tegan</h4>
+                            <p>World Peace Builder</p>
+                        </div>
+                    </article>
+                    <!-- More trending items -->
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
