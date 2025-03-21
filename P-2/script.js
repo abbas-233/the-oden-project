@@ -5,7 +5,7 @@ const Dashboard = (() => {
     projects: [],
     announcements: [],
     trending: [],
-    user: null,
+    user: { name: 'Morgan Oakley', handle: '@morgan', avatar: 'avatar.png' },
     notifications: [],
     searchQuery: '',
     activeTab: 'home'
@@ -52,6 +52,7 @@ const Dashboard = (() => {
         <article class="project-card" data-id="${project.id}">
           <div class="card-content">
             <h3>${project.title}</h3>
+            ${project.isNew ? '<span class="badge">New</span>' : ''}
             <p>${project.description}</p>
           </div>
           <div class="card-actions">

@@ -155,7 +155,7 @@
 .main-content {
   grid-area: main;
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 3fr 1fr; /* Reverted column ratio */
   gap: calc(var(--spacing-unit) * 2);
   padding: calc(var(--spacing-unit) * 2);
   background: var(--secondary-color);
@@ -163,6 +163,10 @@
 
 .projects {
   grid-column: 1 / 2;
+}
+
+.projects h2 {
+  margin-bottom: calc(var(--spacing-unit) * 1);
 }
 
 .project-grid {
@@ -201,51 +205,80 @@
     gap: calc(var(--spacing-unit) * 0.5);
     margin-top: var(--spacing-unit);
   }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent-color);
+    color: var(--text-light);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+  }
 }
 
 /* ===== Right Panel Styles ===== */
 .right-panel {
-  display: grid;
-  gap: calc(var(--spacing-unit) * 2);
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Dynamically position sections */
+  height: 100%; /* Match the height of the projects block */
 }
 
-.announcement-card {
+.announcements {
+  flex: 1; /* Allow announcements to grow dynamically */
+  margin-bottom: calc(var(--spacing-unit) * .5);
+}
+
+.trending {
+  flex: 1; /* Allow trending to grow dynamically */
+}
+
+.announcement-card,
+.trending-list {
   background: white;
   padding: calc(var(--spacing-unit) * 1.5);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  font-size: 0.85rem; /* Reduced font size for announcements */
+  line-height: 1.4;
+}
 
-  .divider {
-    margin: calc(var(--spacing-unit) * 1) 0;
-    border: 1px solid var(--secondary-color);
-  }
+.announcement-card .divider,
+.trending-list .divider {
+  margin: calc(var(--spacing-unit) * 1) 0;
+  border: 1px solid var(--secondary-color);
 }
 
 .trending-list {
   display: grid;
-  gap: calc(var(--spacing-unit) * 1.5);
+  gap: calc(var(--spacing-unit) * 0.25); /* Reduced vertical spacing */
+  grid-template-rows: none; /* Removed forced row height */
+  height: auto; /* Reverted height */
+}
 
-  .trending-item {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-unit);
-    
-    .avatar-sm {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-    }
-    
-    h4 {
-      font-size: 0.9rem;
-    }
-    
-    p {
-      font-size: 0.8rem;
-      color: #666;
-    }
-  }
+.trending-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-unit); /* Reverted spacing */
+}
+
+.trending-item .avatar-sm {
+  width: 35px; /* Reverted avatar size */
+  height: 35px;
+  border-radius: 50%;
+}
+
+.trending-item .user-info h4 {
+  font-size: 1rem; /* Reverted font size */
+  font-weight: 500;
+}
+
+.trending-item .user-info p {
+  font-size: 0.9rem; /* Reverted font size */
+  color: #666;
 }
 
 /* ===== Utility Classes ===== */
@@ -275,6 +308,11 @@
   &:hover .material-icons {
     color: var(--primary-color);
   }
+}
+
+.announcements h2,
+.trending h2 {
+  margin-bottom: calc(var(--spacing-unit) * 1);
 }
 
 /* ===== Responsive Design ===== */
@@ -307,4 +345,16 @@
   .project-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.header .user-controls {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 1);
+}
+
+.header .user-controls .username {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-dark);
 }
