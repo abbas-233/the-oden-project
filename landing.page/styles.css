@@ -160,7 +160,7 @@ body {
 }
 
 .card {
-    max-width: 250px;
+    max-width: 300px;
     transition: all 0.3s ease;
 }
 
@@ -203,7 +203,7 @@ body {
 .quote {
     background-color: #E5E7EB;
     padding: 100px 200px;
-    background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995');
+    background-image: url('https://images.unsplash.com/photo-1633356122544-f134324a6cee');
     background-size: cover;
     background-position: center;
     position: relative;
