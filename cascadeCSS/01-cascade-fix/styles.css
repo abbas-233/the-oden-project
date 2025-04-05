@@ -1,0 +1,42 @@
+/* Specificity and inheritance exercise */
+
+/* Type selector */
+p {
+    color: red;
+}
+
+/* Class selector beats type selector */
+.para {
+    color: black;
+}
+
+/* More specific class selector */
+.small-para {
+    font-size: 14px;
+}
+
+/* ID selector beats class selector */
+#confirm-button {
+    background: green;
+    color: white;
+    font-weight: bold;
+}
+
+/* Class selector */
+.button {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+}
+
+/* Class selector */
+.text {
+    color: green;
+    font-size: 22px;
+}
+
+/* More specific class selector */
+.text.child {
+    color: red;
+    font-size: 14px;
+} 
