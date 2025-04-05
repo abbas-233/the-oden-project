@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox Axes Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Flexbox Axes Demonstration</h1>
+        
+        <div class="demo-section">
+            <h2>English Text (LTR)</h2>
+            <div class="flex-container ltr">
+                <div class="box">1</div>
+                <div class="box">2</div>
+                <div class="box">3</div>
+            </div>
+            <p class="text">There are situations where the behavior of flex-direction could change if you are using a language that is written top-to-bottom or right-to-left, but you should save worrying about that until you are ready to start making a website in Arabic or Hebrew.</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>Arabic Text (RTL)</h2>
+            <div class="flex-container rtl">
+                <div class="box">١</div>
+                <div class="box">٢</div>
+                <div class="box">٣</div>
+            </div>
+            <p class="text arabic">هناك حالات قد يتغير فيها سلوك flex-direction إذا كنت تستخدم لغة مكتوبة من أعلى إلى أسفل أو من اليمين إلى اليسار، ولكن يجب أن تؤجل القلق بشأن ذلك حتى تكون مستعدًا لبدء إنشاء موقع ويب باللغة العربية أو العبرية.</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>Mixed Direction</h2>
+            <div class="flex-container mixed">
+                <div class="box">1</div>
+                <div class="box">٢</div>
+                <div class="box">3</div>
+            </div>
+            <p class="text mixed">English / العربية</p>
+        </div>
+    </div>
+</body>
+</html> 
