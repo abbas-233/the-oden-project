@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch-a-Sketch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --grid-color: #bdc3c7;
+            --hover-color: #34495e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 960px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 1.1em;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            aspect-ratio: 1/1;
+            border: 2px solid var(--grid-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .grid-square {
+            background-color: white;
+            border: 1px solid var(--grid-color);
+            transition: background-color 0.1s ease;
+        }
+
+        .grid-square:hover {
+            background-color: var(--hover-color);
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 6px;
+            background-color: white;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Etch-a-Sketch</h1>
+        
+        <div class="mode-selector">
+            <button class="mode-btn active" id="classic-mode">
+                <i class="fas fa-paint-brush"></i> Classic
+            </button>
+            <button class="mode-btn" id="rainbow-mode">
+                <i class="fas fa-rainbow"></i> Rainbow
+            </button>
+            <button class="mode-btn" id="shading-mode">
+                <i class="fas fa-adjust"></i> Shading
+            </button>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="size-btn">
+                <i class="fas fa-ruler"></i> Change Grid Size
+            </button>
+            <button class="btn" id="clear-btn">
+                <i class="fas fa-eraser"></i> Clear Grid
+            </button>
+        </div>
+
+        <div class="grid-container" id="grid-container"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
