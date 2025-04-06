@@ -1,30 +1,74 @@
-// Exercise 3: Let's Do Some Math
-// This exercise demonstrates various mathematical operations
+// Exercise 3: Advanced Mathematical Operations
+// This exercise demonstrates various mathematical operations and the Math object
 
-// Basic arithmetic operations
-let a = 10;
-let b = 5;
+/**
+ * Demonstrates basic arithmetic operations
+ * @param {number} a - First number
+ * @param {number} b - Second number
+ */
+function basicArithmetic(a, b) {
+    console.log('\nBasic Arithmetic Operations:');
+    console.log(`${a} + ${b} = ${a + b}`);
+    console.log(`${a} - ${b} = ${a - b}`);
+    console.log(`${a} * ${b} = ${a * b}`);
+    console.log(`${a} / ${b} = ${a / b}`);
+    console.log(`${a} % ${b} = ${a % b}`);
+}
 
-console.log("Basic Arithmetic Operations:");
-console.log("Addition:", a + b); // 15
-console.log("Subtraction:", a - b); // 5
-console.log("Multiplication:", a * b); // 50
-console.log("Division:", a / b); // 2
-console.log("Modulus:", a % b); // 0
+/**
+ * Demonstrates advanced mathematical operations
+ * @param {number} x - First number
+ * @param {number} y - Second number
+ */
+function advancedMath(x, y) {
+    console.log('\nAdvanced Mathematical Operations:');
+    console.log(`Exponentiation: ${x}^${y} = ${x ** y}`);
+    console.log(`Square root of (${x}^2 + ${y}^2): ${Math.sqrt(x * x + y * y)}`);
+    console.log(`Absolute value of -${x}: ${Math.abs(-x)}`);
+    console.log(`Rounding ${x}.7: ${Math.round(x + 0.7)}`);
+    console.log(`Floor of ${x}.7: ${Math.floor(x + 0.7)}`);
+    console.log(`Ceiling of ${x}.7: ${Math.ceil(x + 0.7)}`);
+}
 
-// More complex operations
-let x = 3;
-let y = 4;
+/**
+ * Demonstrates Math object constants and functions
+ */
+function mathObjectDemo() {
+    console.log('\nMath Object Constants and Functions:');
+    console.log(`PI: ${Math.PI}`);
+    console.log(`E: ${Math.E}`);
+    console.log(`Random number: ${Math.random()}`);
+    console.log(`Random integer between 1 and 10: ${Math.floor(Math.random() * 10) + 1}`);
+    console.log(`Maximum of 1, 2, 3, 4: ${Math.max(1, 2, 3, 4)}`);
+    console.log(`Minimum of 1, 2, 3, 4: ${Math.min(1, 2, 3, 4)}`);
+    console.log(`Natural logarithm of 10: ${Math.log(10)}`);
+    console.log(`Base 10 logarithm of 100: ${Math.log10(100)}`);
+}
 
-console.log("\nComplex Operations:");
-console.log("Exponentiation:", x ** y); // 81
-console.log("Square root:", Math.sqrt(x * x + y * y)); // 5 (Pythagorean theorem)
-console.log("Absolute value:", Math.abs(-x)); // 3
-console.log("Rounding:", Math.round(3.7)); // 4
+/**
+ * Demonstrates trigonometric functions
+ * @param {number} angle - Angle in degrees
+ */
+function trigonometry(angle) {
+    const radians = angle * (Math.PI / 180);
+    console.log('\nTrigonometric Functions:');
+    console.log(`Sine of ${angle}°: ${Math.sin(radians)}`);
+    console.log(`Cosine of ${angle}°: ${Math.cos(radians)}`);
+    console.log(`Tangent of ${angle}°: ${Math.tan(radians)}`);
+}
 
-// Using Math object
-console.log("\nMath Object Operations:");
-console.log("PI:", Math.PI);
-console.log("Random number:", Math.random());
-console.log("Maximum:", Math.max(a, b, x, y));
-console.log("Minimum:", Math.min(a, b, x, y)); 
+// Main program
+console.log('Welcome to the Mathematical Operations Program!');
+
+// Example values
+const a = 10;
+const b = 5;
+const x = 3;
+const y = 4;
+const angle = 45;
+
+// Run demonstrations
+basicArithmetic(a, b);
+advancedMath(x, y);
+mathObjectDemo();
+trigonometry(angle); 

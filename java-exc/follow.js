@@ -1,55 +1,116 @@
-// Exercise 4: Direction Follow
-// This exercise demonstrates following directions and conditional logic
+// Exercise 4: Direction Game
+// This exercise demonstrates direction handling and game mechanics
 
-// Function to get direction from user
+/**
+ * Valid directions in the game
+ * @type {string[]}
+ */
+const VALID_DIRECTIONS = ['up', 'down', 'left', 'right'];
+
+/**
+ * Game state tracking
+ * @type {Object}
+ */
+const gameState = {
+    position: { x: 0, y: 0 },
+    moves: 0,
+    isPlaying: true
+};
+
+/**
+ * Gets a valid direction from the user
+ * @returns {string|null} The valid direction or null if cancelled
+ */
 function getDirection() {
-    let direction = prompt("Enter a direction (up, down, left, right):").toLowerCase();
-    
-    // Validate input
-    if (direction !== 'up' && direction !== 'down' && direction !== 'left' && direction !== 'right') {
-        console.log("Invalid direction. Please enter up, down, left, or right.");
-        return getDirection(); // Ask again if invalid
+    while (true) {
+        const direction = prompt(
+            'Enter a direction (up, down, left, right) or "stop" to end:'
+        )?.toLowerCase().trim();
+
+        // Handle cancellation
+        if (direction === null) {
+            return null;
+        }
+
+        // Handle stop command
+        if (direction === 'stop') {
+            return 'stop';
+        }
+
+        // Validate direction
+        if (VALID_DIRECTIONS.includes(direction)) {
+            return direction;
+        }
+
+        console.log('Invalid direction. Please enter up, down, left, or right.');
     }
-    
-    return direction;
 }
 
-// Function to move based on direction
+/**
+ * Moves the player in the specified direction
+ * @param {string} direction - The direction to move
+ */
 function move(direction) {
-    switch(direction) {
+    switch (direction) {
         case 'up':
-            console.log("Moving up!");
+            gameState.position.y++;
+            console.log('Moving up!');
             break;
         case 'down':
-            console.log("Moving down!");
+            gameState.position.y--;
+            console.log('Moving down!');
             break;
         case 'left':
-            console.log("Moving left!");
+            gameState.position.x--;
+            console.log('Moving left!');
             break;
         case 'right':
-            console.log("Moving right!");
+            gameState.position.x++;
+            console.log('Moving right!');
             break;
     }
+    gameState.moves++;
 }
 
-// Main program
-console.log("Welcome to the Direction Game!");
-console.log("You can move up, down, left, or right.");
+/**
+ * Displays the current game state
+ */
+function displayGameState() {
+    console.log('\nCurrent Game State:');
+    console.log(`Position: (${gameState.position.x}, ${gameState.position.y})`);
+    console.log(`Total moves: ${gameState.moves}`);
+}
 
-let direction = getDirection();
-move(direction);
+/**
+ * Main game loop
+ */
+function playGame() {
+    console.log('Welcome to the Direction Game!');
+    console.log('You can move up, down, left, or right.');
+    console.log('Enter "stop" to end the game.');
 
-// Additional challenge: Keep moving until user says 'stop'
-let keepMoving = true;
-while (keepMoving) {
-    let response = prompt("Would you like to move again? (yes/no)").toLowerCase();
-    if (response === 'no') {
-        keepMoving = false;
-        console.log("Game over!");
-    } else if (response === 'yes') {
-        direction = getDirection();
+    while (gameState.isPlaying) {
+        const direction = getDirection();
+
+        if (direction === null) {
+            console.log('Game cancelled by user.');
+            break;
+        }
+
+        if (direction === 'stop') {
+            console.log('Game ended by user.');
+            break;
+        }
+
         move(direction);
-    } else {
-        console.log("Please answer with 'yes' or 'no'.");
+        displayGameState();
     }
-} 
+
+    console.log('\nFinal Game Summary:');
+    console.log(`Final position: (${gameState.position.x}, ${gameState.position.y})`);
+    console.log(`Total moves made: ${gameState.moves}`);
+    console.log('Thanks for playing!');
+}
+
+// Start the game
+playGame(); 
