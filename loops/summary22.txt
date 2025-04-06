@@ -1,0 +1,33 @@
+# Summary of JavaScript Exercises README
+
+This repository contains JavaScript exercises designed to complement The Odin Project's curriculum. Below is a summary of the key points:
+
+## Setup Instructions
+1. **Fork and Clone**: Fork the repository and clone it to your local machine.
+2. **Install Prerequisites**:
+   - **NPM**: Ensure NPM is installed. Verify with `npm --version`.
+   - **Jest**: Navigate to the repository directory and run `npm install` to set up Jest.
+
+## Exercise Structure
+- Each exercise includes:
+  - A markdown file describing the task.
+  - A JavaScript file (empty or partially filled).
+  - A set of tests.
+  - A `solutions` directory with completed solutions and unskipped tests.
+
+## How to Complete Exercises
+1. Navigate to the exercise directory.
+2. Run tests using `npm test exerciseName.spec.js`.
+3. Write code to pass the tests. Initially, tests will fail by design.
+4. Change `test.skip` to `test` as you progress through the tests.
+5. Ensure all tests pass simultaneously with no `test.skip` remaining.
+6. Compare your solution with the one in the `solutions` directory after completing the exercise.
+
+## Debugging
+- Use the Visual Studio Code debugger terminal to debug functions.
+- Set breakpoints and run `npm test exerciseName.spec.js` in the debugger terminal.
+
+## Notes
+- Ignore warnings about outdated or vulnerable packages.
+- Do not submit solutions to this repository.
+- Suppress Jest error messages with `--silent` if needed.
