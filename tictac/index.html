@@ -242,7 +242,7 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             position: relative; /* Needed for absolute positioning of images */
-             overflow: hidden; /* Hide overflow */
+            overflow: hidden; /* Hide overflow */
         }
 
         .cell:hover:not(.roger):not(.whitebeard) { /* Only hover empty cells */
@@ -250,12 +250,12 @@
         }
 
         .cell img {
-            width: 90%; /* Adjust size as needed */
-            height: 90%;
-            object-fit: cover; /* Or contain */
-            position: absolute;
-            top: 5%;
-            left: 5%;
+            position: absolute; /* Position relative to cell */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Scale the image to cover the cell, cropping if necessary */
             opacity: 0; /* Hidden by default */
             transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
             transform: scale(0.5); /* Start scaled down */
@@ -265,20 +265,20 @@
         .cell.roger img.roger,
         .cell.whitebeard img.whitebeard {
             opacity: 1; /* Show the correct image */
-             transform: scale(1); /* Scale to full size */
+            transform: scale(1); /* Scale to full size */
         }
 
         /* Hide the non-relevant image */
         .cell.roger img.whitebeard,
         .cell.whitebeard img.roger {
-             display: none; 
+            display: none; 
         }
         
         /* Initially hide both images in empty cells */
-         .cell:not(.roger):not(.whitebeard) img {
-             opacity: 0;
-             transform: scale(0);
-         }
+        .cell:not(.roger):not(.whitebeard) img {
+            opacity: 0;
+            transform: scale(0);
+        }
 
 
         .cell.win {
@@ -317,10 +317,10 @@
             backdrop-filter: blur(5px); /* Frosted glass effect */
         }
 
-         .modal.show {
+        .modal.show {
             display: flex; /* Use flex to center */
             opacity: 1;
-         }
+        }
 
         .modal-content {
             background: var(--container-bg);
@@ -336,7 +336,7 @@
         }
 
         .modal.show .modal-content {
-             transform: scale(1); /* Animate to full size */
+            transform: scale(1); /* Animate to full size */
         }
 
         .modal h2 {
@@ -344,13 +344,13 @@
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: var(--primary-color);
-             text-shadow: 2px 2px var(--secondary-color);
+            text-shadow: 2px 2px var(--secondary-color);
         }
 
         .modal p {
             margin-bottom: 2rem;
             font-size: 1.3rem; /* Larger result text */
-             color: var(--text-color);
+            color: var(--text-color);
         }
 
         .modal-buttons {
@@ -364,16 +364,16 @@
             color: white;
         }
         .modal-btn.quit:hover {
-             background: darkred; /* Darker red on hover */
+            background: darkred; /* Darker red on hover */
         }
 
         .modal-btn.next {
             background: var(--primary-color);
             color: var(--cell-border);
         }
-         .modal-btn.next:hover {
-             background: darkgoldenrod; /* Darker gold */
-         }
+        .modal-btn.next:hover {
+            background: darkgoldenrod; /* Darker gold */
+        }
     </style>
 </head>
 <body>
@@ -405,10 +405,10 @@
                 <h3>Choose Your Pirate!</h3> 
                 <div class="sign-buttons">
                     <button class="sign-btn selected" data-sign="roger">
-                        <img src="roger.webp" alt="Gol D. Roger" class="roger"> 
+                        <img src="goldroger.webp" alt="Gold Roger" class="roger"> 
                     </button>
                     <button class="sign-btn" data-sign="whitebeard">
-                        <img src="edward.webp" alt="Whitebeard" class="whitebeard"> 
+                        <img src="edward.png" alt="Whitebeard" class="whitebeard"> 
                     </button>
                 </div>
                 <p style="margin-top: 1rem; color: var(--text-color); font-style: italic;">Remember: Roger Always Goes First!</p> 
@@ -422,40 +422,40 @@
             <div class="game-board">
                 <!-- Cells now contain both images, CSS will control visibility -->
                 <div class="cell" data-index="0">
-                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
-                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="1">
-                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
-                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="2">
-                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
-                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="3">
-                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
-                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="4">
-                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
-                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="5">
-                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
-                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="6">
-                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
-                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="7">
-                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
-                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="8">
-                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
-                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
             </div>
 
