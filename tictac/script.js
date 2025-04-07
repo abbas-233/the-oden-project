@@ -22,7 +22,10 @@ const GameBoard = (() => {
         for (const combination of winningCombinations) {
             const [a, b, c] = combination;
             if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-                return board[a];
+                return {
+                    winner: board[a],
+                    winningCells: combination
+                };
             }
         }
         return null;
@@ -51,48 +54,47 @@ const createPlayer = (name, marker) => {
 
 // Game Controller Module
 const GameController = (() => {
-    let currentPlayer;
-    let player1;
-    let player2;
+    let currentPlayer = 'roger';
+    let player1Sign = 'roger';
     let gameActive = false;
+    let scores = { roger: 0, whitebeard: 0, ties: 0 };
+    let winningCells = [];
 
-    const startGame = (name1, name2) => {
-        player1 = createPlayer(name1 || 'Player X', 'X');
-        player2 = createPlayer(name2 || 'Player O', 'O');
-        currentPlayer = player1;
+    const startGame = () => {
         gameActive = true;
         GameBoard.clearBoard();
+        currentPlayer = player1Sign;
         DisplayController.updateDisplay();
-        DisplayController.updateStatus(`${currentPlayer.name}'s turn`);
+        DisplayController.updateCurrentPlayer(currentPlayer);
     };
 
     const switchPlayer = () => {
-        currentPlayer = currentPlayer === player1 ? player2 : player1;
+        currentPlayer = currentPlayer === 'roger' ? 'whitebeard' : 'roger';
     };
 
     const makeMove = (index) => {
         if (!gameActive) return false;
         
-        if (GameBoard.setCell(index, currentPlayer.marker)) {
+        if (GameBoard.setCell(index, currentPlayer)) {
             DisplayController.updateDisplay();
             
-            const winner = GameBoard.checkWinner();
-            if (winner) {
+            const result = GameBoard.checkWinner();
+            if (result) {
                 gameActive = false;
-                if (winner === player1.marker) {
-                    player1.incrementScore();
-                    DisplayController.updateStatus(`${player1.name} wins!`);
-                } else {
-                    player2.incrementScore();
-                    DisplayController.updateStatus(`${player2.name} wins!`);
-                }
-                DisplayController.updateScores(player1.getScore(), player2.getScore());
+                scores[result.winner]++;
+                winningCells = result.winningCells;
+                const winnerName = result.winner === 'roger' ? 'Gol D. Roger' : 'Whitebeard';
+                DisplayController.showResult(`${winnerName} Takes the Round`);
+                DisplayController.updateScores(scores);
+                DisplayController.highlightWinningCells(winningCells);
             } else if (GameBoard.isBoardFull()) {
                 gameActive = false;
-                DisplayController.updateStatus("It's a draw!");
+                scores.ties++;
+                DisplayController.showResult("It's a Draw!");
+                DisplayController.updateScores(scores);
             } else {
                 switchPlayer();
-                DisplayController.updateStatus(`${currentPlayer.name}'s turn`);
+                DisplayController.updateCurrentPlayer(currentPlayer);
             }
             return true;
         }
@@ -103,49 +105,89 @@ const GameController = (() => {
         gameActive = true;
         GameBoard.clearBoard();
         DisplayController.updateDisplay();
-        DisplayController.updateStatus(`${currentPlayer.name}'s turn`);
+        DisplayController.updateCurrentPlayer(currentPlayer);
+        DisplayController.clearWinningCells();
+    };
+
+    const newRound = () => {
+        scores = { roger: 0, whitebeard: 0, ties: 0 };
+        DisplayController.updateScores(scores);
+        restartGame();
+    };
+
+    const setPlayer1Sign = (sign) => {
+        player1Sign = sign;
+        currentPlayer = sign;
     };
 
     return {
         startGame,
         makeMove,
-        restartGame
+        restartGame,
+        newRound,
+        setPlayer1Sign
     };
 })();
 
 // Display Controller Module
 const DisplayController = (() => {
     const gameBoard = document.querySelector('.game-board');
-    const statusDisplay = document.querySelector('.status');
+    const currentPlayerDisplay = document.querySelector('#current-player');
+    const playerXScoreDisplay = document.querySelector('#player-x-score');
+    const playerOScoreDisplay = document.querySelector('#player-o-score');
+    const tiesDisplay = document.querySelector('#ties');
     const startBtn = document.querySelector('.start-btn');
-    const restartBtn = document.querySelector('.restart-btn');
-    const player1Input = document.querySelector('#player1');
-    const player2Input = document.querySelector('#player2');
-    const player1Score = document.querySelector('.score-card.x .score');
-    const player2Score = document.querySelector('.score-card.o .score');
+    const restartBtn = document.querySelector('#restart-btn');
+    const newRoundBtn = document.querySelector('#new-round-btn');
+    const signButtons = document.querySelectorAll('.sign-btn');
+    const resultModal = document.querySelector('#result-modal');
+    const resultMessage = document.querySelector('#result-message');
+    const quitBtn = document.querySelector('#quit-btn');
+    const nextRoundBtn = document.querySelector('#next-round-btn');
 
     const updateDisplay = () => {
         const board = GameBoard.getBoard();
         const cells = gameBoard.querySelectorAll('.cell');
         cells.forEach((cell, index) => {
-            cell.textContent = board[index];
-            cell.className = 'cell';
+            cell.className = 'cell'; 
             if (board[index]) {
-                cell.classList.add(board[index].toLowerCase());
+                cell.classList.add(board[index]); 
             }
+            cell.classList.remove('win'); 
         });
     };
 
-    const updateStatus = (message) => {
-        statusDisplay.textContent = message;
+    const updateCurrentPlayer = (player) => {
+        currentPlayerDisplay.textContent = player === 'roger' ? 'Roger' : 'Whitebeard';
     };
 
-    const updateScores = (score1, score2) => {
-        player1Score.textContent = score1;
-        player2Score.textContent = score2;
+    const updateScores = (scores) => {
+        playerXScoreDisplay.textContent = scores.roger; 
+        playerOScoreDisplay.textContent = scores.whitebeard;
+        tiesDisplay.textContent = scores.ties;
     };
 
-    // Event Listeners
+    const highlightWinningCells = (cells) => {
+        cells.forEach(index => {
+            const cell = gameBoard.querySelector(`[data-index="${index}"]`);
+            cell.classList.add('win');
+        });
+    };
+
+    const clearWinningCells = () => {
+        const cells = gameBoard.querySelectorAll('.cell');
+        cells.forEach(cell => cell.classList.remove('win'));
+    };
+
+    const showResult = (message) => {
+        resultMessage.textContent = message;
+        resultModal.classList.add('show'); 
+    };
+
+    const hideResult = () => {
+        resultModal.classList.remove('show'); 
+    };
+
     gameBoard.addEventListener('click', (e) => {
         const cell = e.target.closest('.cell');
         if (cell) {
@@ -155,18 +197,44 @@ const DisplayController = (() => {
     });
 
     startBtn.addEventListener('click', () => {
-        const name1 = player1Input.value.trim();
-        const name2 = player2Input.value.trim();
-        GameController.startGame(name1, name2);
+        GameController.startGame();
     });
 
     restartBtn.addEventListener('click', () => {
         GameController.restartGame();
     });
 
+    newRoundBtn.addEventListener('click', () => {
+        GameController.newRound();
+    });
+
+    signButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            signButtons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            GameController.setPlayer1Sign(button.dataset.sign);
+        });
+    });
+
+    quitBtn.addEventListener('click', () => {
+        hideResult();
+        GameController.newRound();
+    });
+
+    nextRoundBtn.addEventListener('click', () => {
+        hideResult();
+        GameController.restartGame();
+    });
+
+    updateScores({ roger: 0, whitebeard: 0, ties: 0 }); 
+    updateCurrentPlayer(GameController.setPlayer1Sign ? GameController.setPlayer1Sign('roger') : 'roger'); 
+
     return {
         updateDisplay,
-        updateStatus,
-        updateScores
+        updateCurrentPlayer,
+        updateScores,
+        highlightWinningCells,
+        clearWinningCells,
+        showResult
     };
-})(); 
+})();

@@ -3,229 +3,480 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
+    <title>Tic Tac Toe - One Piece Adventure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --secondary-color: #f43f5e;
-            --background-color: #f8fafc;
-            --text-color: #1e293b;
-            --border-color: #e2e8f0;
-            --hover-color: #4338ca;
+            --header-font: 'Pirata One', cursive;
+            --body-font: 'Roboto', sans-serif;
+            --primary-color: #E8B400; /* Gold D. Roger Gold */
+            --secondary-color: #D13131; /* Marine Red */
+            --background-start: #4682B4; /* Steel Blue - Sea */
+            --background-end: #87CEEB; /* Sky Blue */
+            --board-bg: #DEB887; /* Burly Wood */
+            --cell-border: #8B4513; /* Saddle Brown */
+            --text-color: #333; /* Dark text for contrast */
+            --container-bg: rgba(245, 245, 220, 0.9); /* Beige with transparency */
+            --button-bg: #CD853F; /* Peru */
+            --button-hover: #A0522D; /* Sienna */
+            --win-color: #32CD32; /* Lime Green */
+            --draw-color: #778899; /* Light Slate Gray */
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
-            background-color: var(--background-color);
+            /* Parchment / Old Map Background */
+            background-color: #F5F5DC; /* Beige */
+            background-image: 
+                linear-gradient(rgba(210, 180, 140, 0.1) 1px, transparent 1px), /* Fainter grid lines */
+                linear-gradient(90deg, rgba(210, 180, 140, 0.1) 1px, transparent 1px),
+                radial-gradient(ellipse at center, rgba(245, 245, 220, 0.4), rgba(210, 180, 140, 0.4)); /* Subtle vignette */
+            background-size: 25px 25px, 25px 25px, 100% 100%; 
             color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem;
+            justify-content: center;
+            padding: 1rem;
+            font-family: var(--body-font);
         }
 
         .container {
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--primary-color);
-        }
-
-        .game-setup {
-            background: white;
+            max-width: 950px; /* Increased width for horizontal layout */
+            width: 95%; /* Use percentage for responsiveness */
+            display: flex; /* Enable flexbox for horizontal layout */
+            gap: 2rem; /* Space between sidebar and main content */
+            text-align: center; /* Keep text centered where applicable */
+            background: var(--container-bg);
             padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            margin-bottom: 2rem;
+            border-radius: 15px; /* Slightly more rounded */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+            border: 3px solid var(--cell-border); /* Wood-like border */
         }
-
-        .player-inputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .player-input {
+        /* New Sidebar and Main Area Styles */
+        .game-sidebar {
+            flex: 0 0 390px; /* Fixed width for sidebar */
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            padding: 1rem; /* Padding inside sidebar */
+            gap: 1.5rem; /* Space between items in sidebar */
         }
 
-        .player-input label {
-            font-weight: 500;
+        .game-main {
+            flex: 1; /* Main area takes remaining space */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center board and controls */
+        }
+        /* --- End New Styles --- */
+
+        .logo {
+            font-family: var(--header-font);
+            font-size: 3rem; /* Slightly smaller if needed in sidebar */
+            font-weight: bold;
+            margin-bottom: 0; /* Remove bottom margin, use gap */
+            color: var(--primary-color);
+            text-shadow: 3px 3px var(--secondary-color); /* Stronger shadow */
+            -webkit-text-stroke: 1px var(--cell-border); /* Outline */
+            paint-order: stroke fill;
         }
 
-        .player-input input {
+        .game-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 0; /* Remove bottom margin, use gap */
+        }
+
+        .info-card {
+            background: rgba(222, 184, 135, 0.7); /* Semi-transparent wood */
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--cell-border);
+        }
+
+        .info-card h3 {
+            font-family: var(--header-font);
+            font-size: 1.1rem; /* Slightly larger */
+            color: var(--cell-border);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase; /* Pirate style */
+        }
+
+        .info-card .value {
+            font-size: 1.8rem; /* Larger score */
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .info-card.draw .value {
+            color: var(--draw-color);
+        }
+        
+        /* Current turn indicator */
+        #current-player {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .player-selection {
+            margin-bottom: 0; /* Remove bottom margin, use gap */
+        }
+
+        .player-selection h3 {
+            font-family: var(--header-font);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--cell-border);
+        }
+
+        .sign-buttons {
+            display: flex;
+            gap: 1.5rem; /* More gap */
+            justify-content: center;
+        }
+
+        .sign-btn {
+            background: var(--board-bg);
+            border: 3px solid var(--cell-border);
             padding: 0.5rem;
-            border: 2px solid var(--border-color);
-            border-radius: 0.5rem;
+            border-radius: 10px; /* Rounded wood */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100px; /* Larger buttons */
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Ensure image stays within bounds */
+        }
+
+        .sign-btn img {
             width: 100%;
-            max-width: 200px;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px; /* Match button rounding */
+            transition: transform 0.3s ease;
+        }
+
+        .sign-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px); /* Lift effect */
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        
+        .sign-btn:hover img {
+            transform: scale(1.1); /* Zoom effect */
+        }
+
+        .sign-btn.selected {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px 3px var(--primary-color); /* Glow effect */
+        }
+        
+        .start-btn, .control-btn, .modal-btn { /* General button styling */
+             /* Changed font for better readability */
+             font-family: var(--body-font); 
+            background: var(--button-bg);
+            color: white;
+            border: 2px solid var(--cell-border);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            font-size: 1.2rem; /* Larger text */
+            font-weight: bold; /* Use bold from font */
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 0 0.5rem; /* Add some margin */
         }
 
         .start-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
+             margin-bottom: 0; /* Remove bottom margin, use gap */
+             background: var(--primary-color); /* Make start button gold */
+             color: var(--cell-border);
         }
 
-        .start-btn:hover {
-            background-color: var(--hover-color);
+        .start-btn:hover, .control-btn:hover, .modal-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
         }
+        
+         .start-btn:active, .control-btn:active, .modal-btn:active {
+             transform: translateY(1px); /* Push down effect */
+             box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+         }
 
         .game-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            margin: 2rem auto;
-            max-width: 400px;
+            gap: 0.8rem; /* Slightly larger gap */
+            margin: 1rem auto; /* Adjusted margin */
+            max-width: 360px; /* Increased size */
+            width: 100%; /* Take available width in .game-main */
+            background-color: var(--board-bg); /* Wood background */
+            padding: 1rem; /* Padding around cells */
+            border-radius: 10px;
+            border: 5px solid var(--cell-border); /* Thick wood border */
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3); /* Inset shadow for depth */
         }
 
         .cell {
-            aspect-ratio: 1;
-            background: white;
-            border: 2px solid var(--border-color);
-            border-radius: 0.5rem;
+            background: rgba(245, 222, 179, 0.8); /* Wheat, slightly transparent */
+            border: 2px solid var(--cell-border);
+            border-radius: 8px;
+            aspect-ratio: 1 / 1; /* Make cells square */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background-color 0.3s ease;
+            position: relative; /* Needed for absolute positioning of images */
+             overflow: hidden; /* Hide overflow */
         }
 
-        .cell:hover {
-            background-color: var(--background-color);
-            border-color: var(--primary-color);
+        .cell:hover:not(.roger):not(.whitebeard) { /* Only hover empty cells */
+            background-color: rgba(210, 180, 140, 0.8); /* Tan */
         }
 
-        .cell.x {
-            color: var(--primary-color);
+        .cell img {
+            width: 90%; /* Adjust size as needed */
+            height: 90%;
+            object-fit: cover; /* Or contain */
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            transform: scale(0.5); /* Start scaled down */
+            border-radius: 5px;
         }
 
-        .cell.o {
-            color: var(--secondary-color);
+        .cell.roger img.roger,
+        .cell.whitebeard img.whitebeard {
+            opacity: 1; /* Show the correct image */
+             transform: scale(1); /* Scale to full size */
         }
 
-        .status {
-            font-size: 1.25rem;
-            margin: 1rem 0;
-            font-weight: 500;
+        /* Hide the non-relevant image */
+        .cell.roger img.whitebeard,
+        .cell.whitebeard img.roger {
+             display: none; 
+        }
+        
+        /* Initially hide both images in empty cells */
+         .cell:not(.roger):not(.whitebeard) img {
+             opacity: 0;
+             transform: scale(0);
+         }
+
+
+        .cell.win {
+            background: var(--win-color);
+            animation: winPulse 0.8s infinite alternate;
         }
 
-        .restart-btn {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 1rem;
+        @keyframes winPulse {
+            from {
+                box-shadow: 0 0 15px 5px rgba(50, 205, 50, 0.7);
+            }
+            to {
+                box-shadow: 0 0 25px 10px rgba(50, 205, 50, 1);
+            }
         }
 
-        .restart-btn:hover {
-            background-color: #e11d48;
+        .game-controls {
+            margin-top: 1rem; /* Adjusted margin */
+            display: flex;
+            justify-content: center;
         }
 
-        .score-board {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            left: 0;
+            top: 0;
             width: 100%;
-            max-width: 400px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+            align-items: center;
+            justify-content: center;
+            z-index: 1000; /* Ensure it's on top */
+            opacity: 0; /* Start hidden */
+            transition: opacity 0.3s ease-in-out;
+            backdrop-filter: blur(5px); /* Frosted glass effect */
         }
 
-        .score-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px -1px rgb(0 0 0 / 0.1);
+         .modal.show {
+            display: flex; /* Use flex to center */
+            opacity: 1;
+         }
+
+        .modal-content {
+            background: var(--container-bg);
+            padding: 2.5rem; /* More padding */
+            border-radius: 15px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            border: 3px solid var(--cell-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: scale(0.8); /* Start small */
+            transition: transform 0.3s ease-in-out;
         }
 
-        .score-card h3 {
-            color: var(--text-color);
-            margin-bottom: 0.5rem;
+        .modal.show .modal-content {
+             transform: scale(1); /* Animate to full size */
         }
 
-        .score-card .score {
-            font-size: 1.5rem;
-            font-weight: bold;
+        .modal h2 {
+            font-family: var(--header-font);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             color: var(--primary-color);
+             text-shadow: 2px 2px var(--secondary-color);
         }
 
-        .score-card.o .score {
-            color: var(--secondary-color);
+        .modal p {
+            margin-bottom: 2rem;
+            font-size: 1.3rem; /* Larger result text */
+             color: var(--text-color);
         }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .modal-btn.quit {
+            background: var(--secondary-color);
+            color: white;
+        }
+        .modal-btn.quit:hover {
+             background: darkred; /* Darker red on hover */
+        }
+
+        .modal-btn.next {
+            background: var(--primary-color);
+            color: var(--cell-border);
+        }
+         .modal-btn.next:hover {
+             background: darkgoldenrod; /* Darker gold */
+         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Tic Tac Toe</h1>
-        
-        <div class="game-setup">
-            <div class="player-inputs">
-                <div class="player-input">
-                    <label for="player1">Player X</label>
-                    <input type="text" id="player1" placeholder="Enter name">
+        <!-- Sidebar Section -->
+        <div class="game-sidebar">
+            <div class="logo">One Piece Tic Tac Toe</div>
+            
+            <div class="game-info">
+                <div class="info-card">
+                    <h3>Turn</h3>
+                    <div class="value" id="current-player">Roger</div>
                 </div>
-                <div class="player-input">
-                    <label for="player2">Player O</label>
-                    <input type="text" id="player2" placeholder="Enter name">
+                <div class="info-card">
+                    <h3>Roger</h3>
+                    <div class="value" id="player-x-score">0</div>
+                </div>
+                <div class="info-card">
+                    <h3>Ties</h3>
+                    <div class="value" id="ties">0</div>
+                </div>
+                <div class="info-card">
+                    <h3>Whitebeard</h3> 
+                    <div class="value" id="player-o-score">0</div>
                 </div>
             </div>
-            <button class="start-btn">Start Game</button>
-        </div>
 
-        <div class="score-board">
-            <div class="score-card x">
-                <h3>Player X</h3>
-                <div class="score">0</div>
+            <div class="player-selection">
+                <h3>Choose Your Pirate!</h3> 
+                <div class="sign-buttons">
+                    <button class="sign-btn selected" data-sign="roger">
+                        <img src="roger.webp" alt="Gol D. Roger" class="roger"> 
+                    </button>
+                    <button class="sign-btn" data-sign="whitebeard">
+                        <img src="edward.webp" alt="Whitebeard" class="whitebeard"> 
+                    </button>
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-color); font-style: italic;">Remember: Roger Always Goes First!</p> 
             </div>
-            <div class="score-card o">
-                <h3>Player O</h3>
-                <div class="score">0</div>
+
+            <button class="start-btn">Start Game</button> 
+        </div>
+
+        <!-- Main Game Area -->
+        <div class="game-main">
+            <div class="game-board">
+                <!-- Cells now contain both images, CSS will control visibility -->
+                <div class="cell" data-index="0">
+                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
+                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                </div>
+                <div class="cell" data-index="1">
+                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
+                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                </div>
+                <div class="cell" data-index="2">
+                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
+                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                </div>
+                <div class="cell" data-index="3">
+                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
+                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                </div>
+                <div class="cell" data-index="4">
+                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
+                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                </div>
+                <div class="cell" data-index="5">
+                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
+                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                </div>
+                <div class="cell" data-index="6">
+                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
+                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                </div>
+                <div class="cell" data-index="7">
+                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
+                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                </div>
+                <div class="cell" data-index="8">
+                    <img src="roger.webp" alt="Gol D. Roger" class="roger">
+                    <img src="edward.webp" alt="Whitebeard" class="whitebeard">
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="control-btn" id="restart-btn">Restart Game</button> 
+                <button class="control-btn" id="new-round-btn">New Round</button>
             </div>
         </div>
-
-        <div class="status">Player X's turn</div>
-        
-        <div class="game-board">
-            <div class="cell" data-index="0"></div>
-            <div class="cell" data-index="1"></div>
-            <div class="cell" data-index="2"></div>
-            <div class="cell" data-index="3"></div>
-            <div class="cell" data-index="4"></div>
-            <div class="cell" data-index="5"></div>
-            <div class="cell" data-index="6"></div>
-            <div class="cell" data-index="7"></div>
-            <div class="cell" data-index="8"></div>
+        <!-- Modal remains outside sidebar/main -->
+        <div class="modal" id="result-modal">
+            <div class="modal-content">
+                <h2>Victory!</h2> 
+                <p id="result-message"></p>
+                <div class="modal-buttons">
+                    <button class="modal-btn quit" id="quit-btn">Abandon Ship (Quit)</button> 
+                    <button class="modal-btn next" id="next-round-btn">Next Voyage (Next Round)</button> 
+                </div>
+            </div>
         </div>
-
-        <button class="restart-btn">Restart Game</button>
     </div>
+
     <script src="script.js"></script>
 </body>
-</html> 
+</html>
