@@ -93,9 +93,16 @@
 
         .game-info {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-bottom: 0; /* Remove bottom margin, use gap */
+            grid-template-columns: repeat(3, 1fr); /* 3 columns for scores */
+            gap: 0.5rem; /* Smaller gap between scores */
+            width: 100%; /* Take full width */
+            margin-bottom: 0; /* Rely on sidebar gap */
+        }
+
+        /* Make Turn display span full width */
+        .info-card.turn-display {
+            grid-column: 1 / -1; /* Span all 3 columns */
+            margin-bottom: 0.5rem; /* Space below Turn */
         }
 
         .info-card {
@@ -295,6 +302,12 @@
             }
         }
 
+        /* Highlight for winning cells */
+        .cell.win-line {
+            background-color: rgba(255, 215, 0, 0.5); /* Semi-transparent gold */
+            border: 2px solid gold;
+        }
+
         .game-controls {
             margin-top: 1rem; /* Adjusted margin */
             display: flex;
@@ -382,11 +395,12 @@
         <div class="game-sidebar">
             <div class="logo">One Piece Tic Tac Toe</div>
             
-            <div class="game-info">
-                <div class="info-card">
+            <div class="game-info"> 
+                <div class="info-card turn-display"> <!-- Added turn-display class -->
                     <h3>Turn</h3>
                     <div class="value" id="current-player">Roger</div>
                 </div>
+                <!-- Score cards will flow into the next row -->
                 <div class="info-card">
                     <h3>Roger</h3>
                     <div class="value" id="player-x-score">0</div>
@@ -405,56 +419,54 @@
                 <h3>Choose Your Pirate!</h3> 
                 <div class="sign-buttons">
                     <button class="sign-btn selected" data-sign="roger">
-                        <img src="goldroger.webp" alt="Gold Roger" class="roger"> 
+                        <img src="goldroger.png" alt="Gold Roger" class="roger"> 
                     </button>
                     <button class="sign-btn" data-sign="whitebeard">
                         <img src="edward.png" alt="Whitebeard" class="whitebeard"> 
                     </button>
                 </div>
-                <p style="margin-top: 1rem; color: var(--text-color); font-style: italic;">Remember: Roger Always Goes First!</p> 
+                <p style="margin-top: 1rem; color: var(--text-color); font-style: italic;"></p> 
             </div>
 
-            <button class="start-btn">Start Game</button> 
         </div>
-
         <!-- Main Game Area -->
         <div class="game-main">
             <div class="game-board">
                 <!-- Cells now contain both images, CSS will control visibility -->
                 <div class="cell" data-index="0">
-                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="goldroger.png" alt="Gold Roger" class="roger">
                     <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="1">
-                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="goldroger.png" alt="Gold Roger" class="roger">
                     <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="2">
-                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="goldroger.png" alt="Gold Roger" class="roger">
                     <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="3">
-                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="goldroger.png" alt="Gold Roger" class="roger">
                     <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="4">
-                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="goldroger.png" alt="Gold Roger" class="roger">
                     <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="5">
-                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="goldroger.png" alt="Gold Roger" class="roger">
                     <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="6">
-                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="goldroger.png" alt="Gold Roger" class="roger">
                     <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="7">
-                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="goldroger.png" alt="Gold Roger" class="roger">
                     <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
                 <div class="cell" data-index="8">
-                    <img src="goldroger.webp" alt="Gold Roger" class="roger">
+                    <img src="goldroger.png" alt="Gold Roger" class="roger">
                     <img src="edward.png" alt="Whitebeard" class="whitebeard">
                 </div>
             </div>
@@ -470,8 +482,8 @@
                 <h2>Victory!</h2> 
                 <p id="result-message"></p>
                 <div class="modal-buttons">
-                    <button class="modal-btn quit" id="quit-btn">Abandon Ship (Quit)</button> 
-                    <button class="modal-btn next" id="next-round-btn">Next Voyage (Next Round)</button> 
+                    <button class="modal-btn quit" id="quit-btn">Quit</button> 
+                    <button class="modal-btn next" id="next-round-btn">Next Round</button> 
                 </div>
             </div>
         </div>
