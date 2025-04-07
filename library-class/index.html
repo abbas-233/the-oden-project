@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Modern Library</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a2a3a;  /* Dark Blue-Gray */
+            --secondary-color: #4a5a6a; /* Medium Gray */
+            --accent-color: #00adb5;   /* Teal Accent */
+            --highlight-color: #eeeeee; /* Light Gray Highlight */
+            --danger-color: #ff6b6b;    /* Coral Red */
+            --success-color: #50c878;  /* Emerald Green */
+            --text-color: #222831;     /* Dark Text */
+            --light-text: #ffffff;
+            --background-color: #f7f7f7; /* Very Light Gray */
+            --card-background: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #f7f7f7, #e9e9e9);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 25px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 25px;
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.2em; /* Slightly smaller */
+            font-weight: 700;
+            margin-right: 20px; /* Add some space */
+        }
+
+        .stats {
+            display: flex;
+            gap: 25px;
+            margin: 10px 0; /* Add margin for wrap */
+        }
+
+        .stat-card {
+            background-color: var(--accent-color);
+            color: var(--light-text);
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 173, 181, 0.3);
+        }
+
+        .stat-card h3 {
+            font-size: 0.9em; /* Smaller title */
+            margin-bottom: 3px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .stat-card p {
+            font-size: 1.6em;
+            font-weight: bold;
+        }
+
+        .add-book-btn {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-flex; /* Align icon and text */
+            align-items: center;
+            gap: 8px; /* Space between icon and text */
+        }
+
+        .add-book-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly smaller cards */
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .book-card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column; /* Stack content vertically */
+            justify-content: space-between; /* Push actions to bottom */
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .book-card p {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            font-size: 0.95em;
+        }
+        
+        .book-card p strong {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .book-status {
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .book-status.read {
+             background-color: rgba(80, 200, 120, 0.2); /* Light Green background */
+             color: #388e3c; /* Darker Green text */
+        }
+
+        .book-status.not-read {
+            background-color: rgba(255, 107, 107, 0.2); /* Light Red background */
+             color: #c62828; /* Darker Red text */
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px; /* More space above actions */
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px; /* Rounded corners */
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-size: 0.9em;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px; /* Ensure consistent width */
+        }
+
+        .btn i {
+             margin-right: 6px;
+        }
+
+        .btn-read {
+            background-color: var(--success-color);
+            color: var(--light-text);
+            border: 1px solid transparent;
+        }
+
+        .btn-read.mark-unread {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-read:hover {
+            filter: brightness(1.1);
+        }
+
+        .btn-delete {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+        }
+
+        .btn-delete:hover {
+             background-color: var(--danger-color);
+             color: var(--light-text);
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 42, 58, 0.7); /* Darker overlay */
+            z-index: 1000;
+            display: flex; /* Use flex for centering */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal.active {
+             opacity: 1;
+             visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--card-background);
+            padding: 35px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px; /* Slightly narrower */
+            position: relative;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-20px); /* Start slightly up */
+            transition: transform 0.3s ease;
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal h2 {
+             color: var(--primary-color);
+             margin-bottom: 25px;
+             font-size: 1.6em;
+             text-align: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8em;
+            cursor: pointer;
+            color: var(--secondary-color);
+            transition: color 0.2s ease;
+            line-height: 1; /* Prevent extra space */
+        }
+
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--secondary-color);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 173, 181, 0.2);
+        }
+
+        .form-group.checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f7f7f7;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group.checkbox-group label {
+            margin-bottom: 0;
+            order: 2;
+            color: var(--text-color);
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .form-group.checkbox-group input[type="checkbox"] {
+            width: auto;
+            order: 1;
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--accent-color);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            margin-top: 0; /* Reset margin */
+        }
+
+        .form-group.checkbox-group input[type="checkbox"]:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .form-group.checkbox-group input[type="checkbox"]:checked::before {
+            content: '\2713'; /* Checkmark */
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            line-height: 1;
+        }
+
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: var(--light-text);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #008f95; /* Darker teal */
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            header {
+                flex-direction: column; /* Stack header items */
+                align-items: flex-start; /* Align items left */
+                gap: 15px;
+            }
+            .stats {
+                width: 100%;
+                justify-content: space-around; /* Spread stats */
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+             .books-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                padding: 25px;
+            }
+        }
+         @media (max-width: 480px) {
+             .stat-card {
+                  padding: 10px 15px;
+             }
+             .stat-card h3 {
+                  font-size: 0.8em;
+             }
+              .stat-card p {
+                  font-size: 1.4em;
+             }
+             .book-card {
+                 padding: 20px;
+             }
+              .book-actions {
+                  flex-direction: column; /* Stack buttons */
+                  gap: 8px;
+              }
+              .btn {
+                  width: 100%;
+              }
+         }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book-open"></i> Modern Library</h1>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Total</h3>
+                    <p id="total-books">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Read</h3>
+                    <p id="books-read">0</p>
+                </div>
+            </div>
+            <button class="add-book-btn" id="add-book-btn">
+                <i class="fas fa-plus"></i> Add Book
+            </button>
+        </header>
+
+        <main>
+            <div class="books-grid" id="books-grid">
+                <!-- Book cards will be dynamically inserted here by script.js -->
+                 <!-- Example Structure (for reference, will be generated by JS) -->
+                 <!--
+                 <div class="book-card" data-id="unique_id_1">
+                     <div> <!- Content wrapper ->
+                         <h2>Example Book Title</h2>
+                         <p><strong>Author:</strong> John Doe</p>
+                         <p><strong>Pages:</strong> 250</p>
+                         <p><strong>Status:</strong> <span class="book-status read">Read</span></p>
+                      </div>
+                      <div class="book-actions">
+                         <button class="btn btn-read" data-action="toggle"><i class="fas fa-times-circle"></i> Mark Unread</button>
+                         <button class="btn btn-delete" data-action="delete"><i class="fas fa-trash"></i> Delete</button>
+                      </div>
+                 </div>
+                 <div class="book-card" data-id="unique_id_2">
+                      <div> <!- Content wrapper ->
+                          <h2>Another Example</h2>
+                          <p><strong>Author:</strong> Jane Smith</p>
+                          <p><strong>Pages:</strong> 400</p>
+                          <p><strong>Status:</strong> <span class="book-status not-read">Not Read</span></p>
+                      </div>
+                      <div class="book-actions">
+                          <button class="btn btn-read mark-unread" data-action="toggle"><i class="fas fa-check-circle"></i> Mark Read</button>
+                          <button class="btn btn-delete" data-action="delete"><i class="fas fa-trash"></i> Delete</button>
+                      </div>
+                 </div>
+                 -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Book Modal -->
+    <div class="modal" id="add-book-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2>Add a New Book</h2>
+            <form id="add-book-form">
+                <div class="form-group">
+                    <label for="title">Book Title</label>
+                    <input type="text" id="title" required placeholder="e.g., The Great Gatsby">
+                </div>
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" required placeholder="e.g., F. Scott Fitzgerald">
+                </div>
+                <div class="form-group">
+                    <label for="pages">Number of Pages</label>
+                    <input type="number" id="pages" required min="1" placeholder="e.g., 180">
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="read">
+                    <label for="read">I have read this book</label>
+                </div>
+                <button type="submit" class="submit-btn">Add Book to Library</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
