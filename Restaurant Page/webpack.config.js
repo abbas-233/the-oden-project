@@ -18,6 +18,7 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true, // Clean the dist folder before each build
+    publicPath: '/' // Remove the specific path to make it work from root
   },
   module: {
     rules: [
